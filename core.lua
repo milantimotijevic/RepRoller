@@ -34,22 +34,26 @@ local name, realm = UnitName("player");
 local f = CreateFrame("frame");
 
 local currentLootIndex;
-
-local handler = function(candidateIndex)
-   print("currentLootIndex " .. currentLootIndex .. " candidateIndex " .. candidateIndex); 
-end;
-
-
+local currentItemName;
 
 f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
 f:SetScript("OnEvent", function(self, event, ...)
+    local groupType;
+
+    if IsInGroup("LE_PARTY_CATEGORY_HOME") then groupType = "PARTY" end
+
+    if IsInRaid("LE_PARTY_CATEGORY_HOME") then groupType = "RAID" end
+
+    if groupType == nil then return end
+
     if event == "LOOT_OPENED" then
         local lootInfo = GetLootInfo();
         
         for lootIndex, lootWrapper in ipairs(lootInfo) do
             if tableIncludes(trackedItems, lootWrapper.item) then
                 currentLootIndex = lootIndex;
+                currentItemName = lootWrapper.item;
                 RandomRoll(1, GetNumGroupMembers());
             end
         end
@@ -58,8 +62,9 @@ f:SetScript("OnEvent", function(self, event, ...)
     if event == "CHAT_MSG_SYSTEM" then
       local message = ...;
       local author, rollResult, rollMin, rollMax = string.match(message, "(.+) rolls (%d+) %((%d+)-(%d+)%)");
-      if author and author == name and handler then
-        handler(rollResult);
+      if author and author == name then
+        local msg = "<RepRoller> Raid Rolling " .. currentItemName;
+        SendChatMessage(msg, groupType);
       end
     end
 end)
