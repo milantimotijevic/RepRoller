@@ -1,0 +1,5 @@
+## Interface: 11304
+## Title : RepRoller
+## Notes: Automatically raid rolls ZG rep items
+## Author: Thorniel
+core.lua
