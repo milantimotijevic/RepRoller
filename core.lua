@@ -16,8 +16,7 @@ local trackedItems = {
     "Silver Hakkari Bijou",
     "Gold Hakkari Bijou",
     "Orange Hakkari Bijou",
-    "Yellow Hakkari Bijou",
-    "Seer's Mantle"
+    "Yellow Hakkari Bijou"
 };
 
 local function tableIncludes (tab, val)
@@ -63,13 +62,10 @@ f:SetScript("OnEvent", function(self, event, ...)
       local message = ...;
       local author, rollResult, rollMin, rollMax = string.match(message, "(.+) rolls (%d+) %((%d+)-(%d+)%)");
       if author and author == name then
-        local msg = "<RepRoller> Raid Rolling " .. currentItemName;
+        local msg = "<RepRoller> Raid Rolled " .. currentItemName;
         SendChatMessage(msg, groupType);
+        GiveMasterLoot(currentLootIndex, rollResult);
       end
     end
 end)
-
---GetNumGroupMembers()
---RandomRoll(1, GetNumGroupMembers())
---local name, realm = UnitName("player")
 
