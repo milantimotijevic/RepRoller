@@ -64,8 +64,6 @@ f:SetScript("OnEvent", function(self, event, ...)
                 end
             end
         end
-        --local msg = "<RepRoller> Raid Rolled " .. currentItemName;
-        --GiveMasterLoot(currentLootIndex, rollResult);
       end
     end
 
