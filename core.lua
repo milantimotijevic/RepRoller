@@ -74,3 +74,5 @@ f:SetScript("OnEvent", function(self, event, ...)
 
 end)
 
+SendSystemMessage("<RepRoller> Successfully loaded");
+
