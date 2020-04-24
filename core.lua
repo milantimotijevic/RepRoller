@@ -37,7 +37,6 @@ local rollResults = {};
 
 f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
-f:RegisterEvent("LOOT_CLOSED");
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "LOOT_OPENED" then
         local lootInfo = GetLootInfo();
@@ -63,15 +62,12 @@ f:SetScript("OnEvent", function(self, event, ...)
                     GiveMasterLoot(currentLootIndex, poppedRollResults);
                 end
             end
+
+            matchedCount = 0;
+            rollResults = {};
         end
       end
     end
-
-    if event == "LOOT_CLOSED" then
-        matchedCount = 0;
-        rollResults = {};
-    end
-
 end)
 
 SendSystemMessage("<RepRoller> Successfully loaded");
