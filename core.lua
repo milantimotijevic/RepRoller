@@ -32,13 +32,15 @@ end
 local name, realm = UnitName("player");
 local f = CreateFrame("frame");
 
-local matchedCount = 0;
-local rollResults = {};
+local matchedCount;
+local rollResults;
 
 f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "LOOT_OPENED" then
+        matchedCount = 0;
+        rollResults = {};
         local lootInfo = GetLootInfo();
         
         for lootIndex, lootWrapper in ipairs(lootInfo) do
@@ -62,9 +64,6 @@ f:SetScript("OnEvent", function(self, event, ...)
                     GiveMasterLoot(currentLootIndex, poppedRollResults);
                 end
             end
-
-            matchedCount = 0;
-            rollResults = {};
         end
       end
     end
