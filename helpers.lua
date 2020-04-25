@@ -99,7 +99,7 @@ helpers.handleRoll = function(rollResult)
     if remainingItem == nil then
         for id, item in ipairs(helpers.storage.items) do
             if item.candidateIndex then
-                print("<RepRoller> ROLL SUCCESSFUL - ");
+                SendChatMessage("<RepRoller> " .. item.raidMemberName .. " is ELIGIBLE to receive " .. item.lootName .. " (Loot Window Index: " .. item.lootIndex .. " || Roll Result: " .. item.rollResult .. ")", "RAID");
             else
                 SendChatMessage("<RepRoller> " .. item.raidMemberName .. " is NOT ELIGIBLE to receive " .. item.lootName .. " (Loot Window Index: " .. item.lootIndex .. " || Roll Result: " .. item.rollResult .. ")", "RAID");
                 item.rollResult = nil;
