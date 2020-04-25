@@ -30,7 +30,7 @@ helpers.resetStorage = function()
             "Dwarven Mild"
 
         },
-        rolls = {}
+        items = {}
     };
 end
 
@@ -46,33 +46,39 @@ helpers.tableIncludes = function(tab, val)
     return false;
 end
 
-helpers.firstUnrolled = function()
-    for k,v in ipairs(helpers.storage.rolls) do
-        if v.rollResult == nil then return v end;
-    end
-end
-
 helpers.handleLootOpened = function()
     helpers.resetStorage();
     local lootInfo = GetLootInfo();
     for lootIndex, lootWrapper in ipairs(lootInfo) do
         if helpers.tableIncludes(helpers.storage.trackedItems, lootWrapper.item) then
-            table.insert(helpers.storage.rolls, {lootIndex = lootIndex, lootName = lootWrapper.item});
+            table.insert(helpers.storage.items, {lootIndex = lootIndex, lootName = lootWrapper.item});
             RandomRoll(1, GetNumGroupMembers());
         end
     end
 
-    print(#helpers.storage.rolls)
+    print(#helpers.storage.items)
+end
+
+helpers.firstUnrolled = function()
+    for k,v in ipairs(helpers.storage.items) do
+        if v.rollResult == nil then return v end;
+    end
+end
+
+helpers.getEligibleCandidate = function(rollResult)
+    local raidMemberName = GetRaidRosterInfo(rollResult);
+    print(raidMemberName);
 end
 
 helpers.handleRoll = function(rollResult)
     local firstUnrolled = helpers.firstUnrolled();
     firstUnrolled.rollResult = rollResult;
+    helpers.getEligibleCandidate(rollResult);
 
     firstUnrolled = helpers.firstUnrolled();
 
     if firstUnrolled == nil then
-        for k,v in ipairs(helpers.storage.rolls) do print("lootIndex " .. v.lootIndex .. " lootName " .. v.lootName .. " rollResult " .. v.rollResult) end
+        for k,v in ipairs(helpers.storage.items) do print("lootIndex " .. v.lootIndex .. " lootName " .. v.lootName .. " rollResult " .. v.rollResult) end
     end;
 end
 
