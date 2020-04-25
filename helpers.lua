@@ -27,7 +27,9 @@ helpers.resetStorage = function()
             "Clay Ring of the Gorilla",
             "Rough Stone",
             "Mutton Chop",
-            "Dwarven Mild"
+            "Dwarven Mild",
+            "Inscribed Leather Spaulders",
+            "Medium Leather"
 
         },
         items = {}
@@ -55,8 +57,6 @@ helpers.handleLootOpened = function()
             RandomRoll(1, GetNumGroupMembers());
         end
     end
-
-    print(#helpers.storage.items)
 end
 
 helpers.firstUnrolled = function()
@@ -90,7 +90,11 @@ helpers.handleRoll = function(rollResult)
     item.rollResult = rollResult;
     local candidate = helpers.getEligibleCandidate(item);
 
-    if candidate then print(candidate) else print('NO!') end
+    if candidate then
+        print("Eligible candidate found!")
+    else
+        print("Eligible candidate not found!");
+    end
 
     local remainingItem = helpers.firstUnrolled();
 
