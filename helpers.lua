@@ -104,7 +104,7 @@ helpers.handleRoll = function(rollResult)
             else
                 SendChatMessage("<RepRoller> " .. item.raidMemberName .. " is NOT ELIGIBLE to receive " .. item.lootName .. " (Loot Window Index: " .. item.lootIndex .. " || Roll Result: " .. item.rollResult .. ")", "RAID");
                 item.rollResult = nil;
-                --RandomRoll(1, GetNumGroupMembers());
+                RandomRoll(1, GetNumGroupMembers());
             end
         end
     end;
