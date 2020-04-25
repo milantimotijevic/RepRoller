@@ -29,7 +29,9 @@ helpers.resetStorage = function()
             "Mutton Chop",
             "Dwarven Mild",
             "Inscribed Leather Spaulders",
-            "Medium Leather"
+            "Medium Leather",
+            "Buccanner's Mantle",
+            "Linked Chain Boots"
 
         },
         items = {}
@@ -67,9 +69,7 @@ end
 
 helpers.setEligibleCandidate = function(item)
     local raidMemberName = GetRaidRosterInfo(item.rollResult);
-    local eligibleCandidate = findEligibleCandidateByName(item, raidMemberName);
-
-    return eligibleCandidate;
+    helpers.setEligibleCandidateIndexByName(item, raidMemberName);
 end
 
 helpers.setEligibleCandidateIndexByName = function(item, raidMemberName)
@@ -86,12 +86,6 @@ helpers.handleRoll = function(rollResult)
     local item = helpers.firstUnrolled();
     item.rollResult = rollResult;
     helpers.setEligibleCandidate(item);
-
-    if item.candidateIndex then
-        print("Eligible candidate found!")
-    else
-        print("Eligible candidate not found!");
-    end
 
     local remainingItem = helpers.firstUnrolled();
 
