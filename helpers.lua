@@ -95,6 +95,8 @@ helpers.handleRoll = function(rollResult)
                 print(v.lootName .. " has a valid candidate: " .. v.candidateIndex);
             else
                 print(v.lootName .. " does not have a valid candidate and will need to be re-rolled...");
+                v.rollResult = nil;
+                RandomRoll(1, GetNumGroupMembers());
             end
         end
     end;
