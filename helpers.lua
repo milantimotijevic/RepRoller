@@ -53,6 +53,7 @@ helpers.firstUnrolled = function()
 end
 
 helpers.handleLootOpened = function()
+    helpers.resetStorage();
     local lootInfo = GetLootInfo();
     for lootIndex, lootWrapper in ipairs(lootInfo) do
         if helpers.tableIncludes(helpers.storage.trackedItems, lootWrapper.item) then
