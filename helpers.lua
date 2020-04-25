@@ -1,4 +1,12 @@
-local addonName, data = ...;
-local helpers = {};
+local addonName, helpers = ...;
 
-data.helpers = helpers;
+helpers.resetStorage = function()
+    helpers.storage = {};
+end
+
+helpers.resetStorage();
+
+helpers.handleLootOpened = function()
+    print("Handling loot opened...");
+end
+

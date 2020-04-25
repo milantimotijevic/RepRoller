@@ -1,10 +1,5 @@
-local addonName, data = ...;
-local helpers = data.helpers;
-local resetStorage = data.resetStorage;
-local storage = data.storage;
-print('aa')
+local addonName, helpers = ...;
 
-print(storage.cats[1])
 
 local trackedItems = {
     "Zulian Coin",
@@ -47,16 +42,7 @@ f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "LOOT_OPENED" then
-        itemResults = {};
-        rollResults = {};
-        local lootInfo = GetLootInfo();
         
-        for lootIndex, lootWrapper in ipairs(lootInfo) do
-            if tableIncludes(trackedItems, lootWrapper.item) then
-                table.insert(itemResults, { id = lootIndex, name = lootWrapper.item });
-                RandomRoll(1, GetNumGroupMembers());
-            end
-        end
     end
 
     if event == "CHAT_MSG_SYSTEM" then
