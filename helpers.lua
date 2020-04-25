@@ -67,10 +67,12 @@ end
 
 helpers.getEligibleCandidate = function(item)
     local raidMemberName = GetRaidRosterInfo(item.rollResult);
-    print(raidMemberName);
+    local eligibleCandidate = findEligibleCandidateByName(item, raidMemberName);
+
+    return eligibleCandidate;
 end
 
-helpers.findCandidateByName = function(item, raidMemberName)
+helpers.findEligibleCandidateByName = function(item, raidMemberName)
     local candidate;
 
     for i=1, GetNumGroupMembers() do
