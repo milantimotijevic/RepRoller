@@ -90,7 +90,13 @@ helpers.handleRoll = function(rollResult)
     local remainingItem = helpers.firstUnrolled();
 
     if remainingItem == nil then
-        for k,v in ipairs(helpers.storage.items) do print("lootIndex " .. v.lootIndex .. " lootName " .. v.lootName .. " rollResult " .. v.rollResult) end
+        for k,v in ipairs(helpers.storage.items) do
+            if v.candidateIndex then
+                print(v.lootName .. " has a valid candidate: " .. v.candidateIndex);
+            else
+                print(v.lootName .. " does not have a valid candidate and will need to be re-rolled...");
+            end
+        end
     end;
 end
 
