@@ -1,3 +1,7 @@
+local addonName, data = ...;
+local helpers = data.helpers;
+local storage = data.storage;
+
 local trackedItems = {
     "Zulian Coin",
     "Razzashi Coin",
@@ -32,20 +36,20 @@ end
 local name, realm = UnitName("player");
 local f = CreateFrame("frame");
 
-local matchedCount;
+local itemResults;
 local rollResults;
 
 f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "LOOT_OPENED" then
-        matchedCount = 0;
+        itemResults = {};
         rollResults = {};
         local lootInfo = GetLootInfo();
         
         for lootIndex, lootWrapper in ipairs(lootInfo) do
             if tableIncludes(trackedItems, lootWrapper.item) then
-                matchedCount = matchedCount + 1;
+                table.insert(itemResults, { id = lootIndex, name = lootWrapper.item });
                 RandomRoll(1, GetNumGroupMembers());
             end
         end
@@ -55,13 +59,24 @@ f:SetScript("OnEvent", function(self, event, ...)
       local message = ...;
       local author, rollResult, rollMin, rollMax = string.match(message, "(.+) rolls (%d+) %((%d+)-(%d+)%)");
       if author and author == name then
-        table.insert(rollResults, rollResult);
-
-        if matchedCount == #rollResults then 
+        local raidMemberName = GetRaidRosterInfo(rollResult);
+        table.insert(rollResults, { id = rollResult, name = raidMemberName });
+        
+        if #itemResults == #rollResults then 
             for lootIndex, lootWrapper in ipairs(lootInfo) do
                 if tableIncludes(trackedItems, lootWrapper.item) then
-                    local poppedRollResults = table.remove(rollResults, 1);
-                    GiveMasterLoot(currentLootIndex, poppedRollResults);
+                    local poppedRaidResult = table.remove(rollResults, 1);
+
+                    for i=1,GetNumGroupMembers() do
+                        local candidate = GetMasterLootCandidate(lootIndex, i);
+                        if candidate and poppedRaidResult.name and candidate == poppedRaidResult.name then
+                            SendChatMessage("<RepRoller> Assigning " .. lootWrapper.item .. " to raid member " .. poppedRaidResult.id .. "(" .. poppedRaidResult.name .. ")", "RAID");
+                            --GiveMasterLoot(lootIndex, poppedRaidResult.id);
+                        else
+                            SendChatMessage("<RepRoller> Error assigning " .. lootWrapper.item .. " to raid member " .. poppedRaidResult.id .. "(" .. poppedRaidResult.name .. ")", "RAID");
+                        end
+                    end
+                    
                 end
             end
         end
