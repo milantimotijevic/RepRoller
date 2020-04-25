@@ -65,32 +65,29 @@ helpers.firstUnrolled = function()
     end
 end
 
-helpers.getEligibleCandidate = function(item)
+helpers.setEligibleCandidate = function(item)
     local raidMemberName = GetRaidRosterInfo(item.rollResult);
     local eligibleCandidate = findEligibleCandidateByName(item, raidMemberName);
 
     return eligibleCandidate;
 end
 
-helpers.findEligibleCandidateByName = function(item, raidMemberName)
-    local candidate;
-
+helpers.setEligibleCandidateIndexByName = function(item, raidMemberName)
     for i=1, GetNumGroupMembers() do
         local tempCandidate = GetMasterLootCandidate(item.lootIndex, i);
         if tempCandidate and tempCandidate == raidMemberName then
-            candidate = tempCandidate;
+            item.candidateIndex = i;
+            item.candidateName = tempCandidate;
         end
     end
-
-    return candidate;
 end
 
 helpers.handleRoll = function(rollResult)
     local item = helpers.firstUnrolled();
     item.rollResult = rollResult;
-    local candidate = helpers.getEligibleCandidate(item);
+    helpers.setEligibleCandidate(item);
 
-    if candidate then
+    if item.candidateIndex then
         print("Eligible candidate found!")
     else
         print("Eligible candidate not found!");
