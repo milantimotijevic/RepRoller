@@ -42,7 +42,7 @@ f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("LOOT_OPENED");
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "LOOT_OPENED" then
-        
+        helpers.handleLootOpened();
     end
 
     if event == "CHAT_MSG_SYSTEM" then
