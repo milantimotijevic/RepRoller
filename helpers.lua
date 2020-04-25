@@ -65,19 +65,34 @@ helpers.firstUnrolled = function()
     end
 end
 
-helpers.getEligibleCandidate = function(rollResult)
-    local raidMemberName = GetRaidRosterInfo(rollResult);
+helpers.getEligibleCandidate = function(item)
+    local raidMemberName = GetRaidRosterInfo(item.rollResult);
     print(raidMemberName);
 end
 
+helpers.findCandidateByName = function(item, raidMemberName)
+    local candidate;
+
+    for i=1, GetNumGroupMembers() do
+        local tempCandidate = GetMasterLootCandidate(item.lootIndex, i);
+        if tempCandidate and tempCandidate == raidMemberName then
+            candidate = tempCandidate;
+        end
+    end
+
+    return candidate;
+end
+
 helpers.handleRoll = function(rollResult)
-    local firstUnrolled = helpers.firstUnrolled();
-    firstUnrolled.rollResult = rollResult;
-    helpers.getEligibleCandidate(rollResult);
+    local item = helpers.firstUnrolled();
+    item.rollResult = rollResult;
+    local candidate = helpers.getEligibleCandidate(item);
 
-    firstUnrolled = helpers.firstUnrolled();
+    if candidate then print(candidate) else print('NO!') end
 
-    if firstUnrolled == nil then
+    local remainingItem = helpers.firstUnrolled();
+
+    if remainingItem == nil then
         for k,v in ipairs(helpers.storage.items) do print("lootIndex " .. v.lootIndex .. " lootName " .. v.lootName .. " rollResult " .. v.rollResult) end
     end;
 end
