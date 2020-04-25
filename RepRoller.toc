@@ -2,6 +2,5 @@
 ## Title : RepRoller
 ## Notes: Automatically raid rolls ZG rep items
 ## Author: Thorniel
-storage.lua
 helpers.lua
 core.lua
