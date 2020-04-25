@@ -1,6 +1,10 @@
 local addonName, data = ...;
 local helpers = data.helpers;
+local resetStorage = data.resetStorage;
 local storage = data.storage;
+print('aa')
+
+print(storage.cats[1])
 
 local trackedItems = {
     "Zulian Coin",
