@@ -31,7 +31,10 @@ helpers.resetStorage = function()
             "Inscribed Leather Spaulders",
             "Medium Leather",
             "Buccanner's Mantle",
-            "Linked Chain Boots"
+            "Linked Chain Boots",
+            "Large Blue Sack",
+            "Healing Potion",
+            "Melon Juice"
 
         },
         items = {}
@@ -69,7 +72,11 @@ end
 
 helpers.setEligibleCandidate = function(item)
     local raidMemberName = GetRaidRosterInfo(item.rollResult);
-    helpers.setEligibleCandidateIndexByName(item, raidMemberName);
+
+    if raidMemberName then
+        item.raidMemberName = raidMemberName;
+        helpers.setEligibleCandidateIndexByName(item, raidMemberName);
+    end
 end
 
 helpers.setEligibleCandidateIndexByName = function(item, raidMemberName)
@@ -90,13 +97,13 @@ helpers.handleRoll = function(rollResult)
     local remainingItem = helpers.firstUnrolled();
 
     if remainingItem == nil then
-        for k,v in ipairs(helpers.storage.items) do
-            if v.candidateIndex then
-                print(v.lootName .. " has a valid candidate: " .. v.candidateIndex);
+        for id, item in ipairs(helpers.storage.items) do
+            if item.candidateIndex then
+                print("<RepRoller> ROLL SUCCESSFUL - ");
             else
-                print(v.lootName .. " does not have a valid candidate and will need to be re-rolled...");
-                v.rollResult = nil;
-                RandomRoll(1, GetNumGroupMembers());
+                SendChatMessage("<RepRoller> " .. item.raidMemberName .. " is NOT ELIGIBLE to receive " .. item.lootName .. " (Loot Window Index: " .. item.lootIndex .. " || Roll Result: " .. item.rollResult .. ")", "RAID");
+                item.rollResult = nil;
+                --RandomRoll(1, GetNumGroupMembers());
             end
         end
     end;
