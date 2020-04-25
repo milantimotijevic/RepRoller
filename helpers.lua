@@ -24,7 +24,11 @@ helpers.resetStorage = function()
             "Linked Chain Cloak",
             "Rawhide Boots",
             "Searing Blade",
-            "Clay Ring of the Gorilla"
+            "Clay Ring of the Gorilla",
+            "Rough Stone",
+            "Mutton Chop",
+            "Dwarven Mild"
+
         },
         rolls = {}
     };
@@ -44,7 +48,7 @@ end
 
 helpers.firstUnrolled = function()
     for k,v in ipairs(helpers.storage.rolls) do
-        if v.rollValue == nil then return v end;
+        if v.rollResult == nil then return v end;
     end
 end
 
@@ -60,9 +64,15 @@ helpers.handleLootOpened = function()
     print(#helpers.storage.rolls)
 end
 
-helpers.handleRoll = function()
+helpers.handleRoll = function(rollResult)
     local firstUnrolled = helpers.firstUnrolled();
-    print(firstUnrolled.lootName)
+    firstUnrolled.rollResult = rollResult;
+
+    firstUnrolled = helpers.firstUnrolled();
+
+    if firstUnrolled == nil then
+        for k,v in ipairs(helpers.storage.rolls) do print("lootIndex " .. v.lootIndex .. " lootName " .. v.lootName .. " rollResult " .. v.rollResult) end
+    end;
 end
 
 

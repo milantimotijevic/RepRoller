@@ -23,11 +23,9 @@ f:SetScript("OnEvent", function(self, event, ...)
 
     if event == "CHAT_MSG_SYSTEM" then
       local message = ...;
-      local author, rollResult, rollMin, rollMax = string.match(message, "(.+) rolls (%d+) %((%d+)-(%d+)%)");
+      local author, rollResult = string.match(message, "(.+) rolls (%d+) %((%d+)-(%d+)%)");
       if author and author == name then
-        --local raidMemberName = GetRaidRosterInfo(rollResult);
-        --table.insert(rollResults, { id = rollResult, name = raidMemberName });
-        helpers.handleRoll()
+        helpers.handleRoll(rollResult);
       end
     end
 end)
