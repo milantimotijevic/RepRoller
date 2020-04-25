@@ -20,21 +20,7 @@ helpers.resetStorage = function()
             "Silver Hakkari Bijou",
             "Gold Hakkari Bijou",
             "Orange Hakkari Bijou",
-            "Yellow Hakkari Bijou",
-            "Linked Chain Cloak",
-            "Rawhide Boots",
-            "Searing Blade",
-            "Clay Ring of the Gorilla",
-            "Rough Stone",
-            "Mutton Chop",
-            "Dwarven Mild",
-            "Inscribed Leather Spaulders",
-            "Medium Leather",
-            "Buccanner's Mantle",
-            "Linked Chain Boots",
-            "Large Blue Sack",
-            "Healing Potion",
-            "Melon Juice"
+            "Yellow Hakkari Bijou"
 
         },
         items = {}
